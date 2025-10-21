@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import Editor from '@/components/base/prompt-editor/editor'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -6,8 +7,9 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <div className="text-center">
-      hello
+    <div>
+      123
+      <Editor />
     </div>
   )
 }

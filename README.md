@@ -299,3 +299,6 @@ Files prefixed with `demo` can be safely deleted. They are there to provide a st
 # Learn More
 
 You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+
+
+编辑器/触发气泡菜单时，不能使用 command 因为会和编辑器的焦点起冲突

@@ -1,15 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
-import Editor from '@/components/base/prompt-editor/editor'
+import { createFileRoute } from "@tanstack/react-router";
+import { Configuration } from "@/components/configuration";
 
-export const Route = createFileRoute('/')({
-  component: App,
-})
+export const Route = createFileRoute("/")({
+	component: App,
+});
 
 function App() {
-  return (
-    <div>
-      123
-      <Editor />
-    </div>
-  )
+	return <div className="p-6"><Configuration /></div>;
 }

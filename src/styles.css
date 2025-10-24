@@ -1,3 +1,7 @@
+.variable-node {
+	color: #2563eb;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 

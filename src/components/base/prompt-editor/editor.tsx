@@ -1,58 +1,50 @@
-import {$getRoot, $getSelection, type EditorState} from 'lexical';
-import {useEffect} from 'react'; 
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { VariableNode } from "./nodes/VariableNode";
+import TypeaheadVariableMenuPlugin from "./plugins/TypeaheadVariableMenuPlugin";
+import VariableEntityTransformPlugin from "./plugins/VariableEntityTransformPlugin";
 
-import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
-import {ContentEditable} from '@lexical/react/LexicalContentEditable';
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
-import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
-
-import OnChangePlugin from './plugins/on-change'
+interface PromptEditorV2Props {
+	onTextContentChange?: (textContent: string) => void;
+	options?: string[];
+}
 
 const theme = {
-  paragraph: 'text-blue-500',
-}
+	variable: "variable-node",
+};
 
-// Catch any errors that occur during Lexical updates and log them
-// or throw them as needed. If you don't throw them, Lexical will
-// try to recover gracefully without losing user data.
 function onError(error: Error) {
-  console.error(error);
+	console.error(error);
 }
 
-function Editor() { 
-  const initialConfig = {
-    namespace: 'MyEditor',
-    theme,
-    onError,
-  };
+const initialConfig = {
+	namespace: "Dify_Like_Prompt_Editor_V2",
+	theme,
+	onError,
+	nodes: [VariableNode],
+};
 
-  const onChange = (editorState: string) => {
-    console.log(3, editorState)
-  }
-
-  return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <RichTextPlugin
-        contentEditable={
-          <ContentEditable
-            aria-placeholder={'Enter some text...'}
-            placeholder={<div>Enter some text...</div>}
-            className='w-[200px] h-[200px] border border-gray-300 rounded-md p-2'
-          />
-        }
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <OnChangePlugin onChange={onChange} />
-      {/* <HistoryPlugin /> */}
-      {/* <AutoFocusPlugin /> */}
-    </LexicalComposer>
-  );
+export default function PromptEditorV2({ options }: PromptEditorV2Props) {
+	return (
+		<LexicalComposer initialConfig={initialConfig}>
+			<RichTextPlugin
+				contentEditable={
+					<ContentEditable
+						aria-placeholder={"Enter some text..."}
+						placeholder={<div></div>}
+						className="w-full h-full focus-within:outline-none"
+					/>
+				}
+				ErrorBoundary={LexicalErrorBoundary}
+			/>
+			<VariableEntityTransformPlugin />
+			<TypeaheadVariableMenuPlugin options={options} />
+			<HistoryPlugin />
+			<AutoFocusPlugin />
+		</LexicalComposer>
+	);
 }
-
-export default Editor;
-
-/**
- * 1. lexicalComposer 是编辑器实例，可以配置主题。主题以对象的形式配置，对象的键是节点的类型，值是节点的样式类。
- */
